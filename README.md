@@ -14,3 +14,6 @@ Using the diagram provided in the lecture and the recitation, our application fo
 By utilizing given libraries and standard system calls, we were able to step through this architecture. The project also required the writing of the read(), readlines(), and writen() functions to communicate the echo within the service. 
 
 ### Usage and Makefile Commands
+A makefile was created to make the usage of this project easier. There is a makefile for both the server and the client as well as a clean command to clean out the project.
+
+To start the project, start the server either with the make command or with echos Port. Then start the client with the make command or with echo IPAdr Port.
