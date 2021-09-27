@@ -1,19 +1,35 @@
 # TCP-Echo-Server-and-Client
+Implementation of the client and server for a simple TCP echo service
+  
 
-## ECEN 602 MP1 
-Emily Feller and Jose Isimeme
+ECEN602 Programming Assignment 1
+1. Jose Isimeme
+2. Emily Feller
 
-### Code Description
-This project represents a TCP echo service, utilizing both a server and a client than can be run in a Linux environment. This small example of a network application requires the echoing of input by a user. 
+## Assignment Overview
 
-### Architecture and Approach
-Using the diagram provided in the lecture and the recitation, our application follows a simple server and client format. This is shown below:
+In this assignment, we implemented the client and server for a simple TCP echo service, which does the following:
+1. Start the server first with the command line: echos Port, where echos is the name of the server program and Port is the port number on which the server is listening. The server is able to support multiple simultaneous connections.
+2. Start the client second with a command line: echo IPAdr Port, where echo is the name of the client program, IPAdr is the IPv4 address of the server in dotted decimal notation, and Port is the port number on which the server is listening.
+3. The client reads a line of text from its standard input and writes the line to the network socket connected to the server.
+4. The sever reads the line from its network socket and echoes the line back to the client.
+5. The client reads the echoed line and prints it on its standard input.
+6. When the client reads an EOF from its standard input (e.g., terminal input of Control-D), it closes the socket and exits. When the client closes the socket, the server will receive a TCP FIN packet, and the server child process’ read() command will return with a 0. The child process will then exit.
 
-<img width="717" alt="Screen Shot 2021-09-23 at 1 36 59 PM" src="https://user-images.githubusercontent.com/60982611/134564578-dc3dceb2-dcb7-41a3-91df-f09c050423f0.png">
 
-By utilizing given libraries and standard system calls, we were able to step through this architecture. The project also required the writing of the read(), readlines(), and writen() functions to communicate the echo within the service. 
+## Steps to compile and run
 
-### Usage and Makefile Commands
-A makefile was created to make the usage of this project easier. There is a makefile for both the server and the client as well as a clean command to clean out the project.
+1. In order to compile the code, make sure the makefile, client.c and server.c are in the same directory/folder/. Type in the command:
+    ```
+    make
+    ```
+2. To start the server, type in the command line:
+    ```
+    ./server Port
+    ```
+3. To start the client, type in the command line: ./client IPAdr Port
+    ```
+    ./client IPAdr Port
+    ```
 
-To start the project, start the server either with the make command or with echos Port. Then start the client with the make command or with echo IPAdr Port.
+**Note:** - The code is written in C and is compiled and tested in a Linux environment.
