@@ -56,14 +56,14 @@ int main(int argc, char *argv[]){
     char messge[1024]; //echo message
 
 
-    int status = getaddrinfo(NULL, "8080", &serv, &servinfo);
+    /*int status = getaddrinfo(NULL, "8080", &serv, &servinfo);
     if(status!=0){
         fpr intf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
         exit(1);
-    }
+    }*/
 
     //socket section
-    int socket = socket(servinfo->ai_family, servinfo->ai_socktype, 0);
+    socket = socket(servinfo->ai_family, servinfo->ai_socktype, 0);
     if(socket == -1){
         perror("cannot return socket descriptor");
         exit(-1);
@@ -88,7 +88,7 @@ int main(int argc, char *argv[]){
     //accept section
     // while loop for setup to accept connection from client
     while(1){
-        sock_2 = accept(socket, (struct xx *), NULL, NULL);
+        sock_2 = accept(socket, servinfo->ai_addr, NULL);
         if (sock_2 < 0){
             perror("server error:cannot accept");
         }
@@ -104,7 +104,7 @@ int main(int argc, char *argv[]){
                     break;
                 }
                 
-                printf("From server: %d byte message coming", msg);
+                printf("From server: %d byte message coming", mesg);
                 int writeb = writen(sock_2, messge, mesg);
                 
             }
