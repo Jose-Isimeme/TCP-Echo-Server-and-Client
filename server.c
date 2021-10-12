@@ -40,6 +40,17 @@ int writen(const void *buf, int length, int sockfd){
     return -1;
 }
 
+struct addrinfo {
+int ai_flags; // AI_PASSIVE, AI_CANONNAME, etc.
+int ai_family; // AF_INET, AF_INET6, AF_UNSPEC
+int ai_socktype; // SOCK_STREAM, SOCK_DGRAM
+int ai_protocol; // use 0 for "any"
+size_t ai_addrlen; // size of ai_addr in bytes
+struct sockaddr *ai_addr; // struct sockaddr_in or _in6
+char *ai_canonname; // full canonical hostname
+struct addrinfo *ai_next; // linked list, next node
+};
+
 int main(int argc, char *argv[]){
 
     struct addrinfo serv; // server socket
@@ -48,38 +59,30 @@ int main(int argc, char *argv[]){
     memset(&serv, '\0', sizeof (serv));
     serv.ai_family = AF_INET; //using IPv4 for this project
     serv.ai_socktype = SOCK_STREAM; //used for TCP socket stream
-    serv.ai_port = htons(atoi(argv[1])); // port
     serv.ai_addr = INADDR_ANY; //IP address to any
     //?? mem set missing
     int pid; // process id for child
-    int socket, sock_2; // socket descriptor & new socket for client connection
+    int socket_1, sock_2; // socket descriptor & new socket for client connection
     char messge[1024]; //echo message
 
-
-    /*int status = getaddrinfo(NULL, "8080", &serv, &servinfo);
-    if(status!=0){
-        fpr intf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
-        exit(1);
-    }*/
-
     //socket section
-    socket = socket(servinfo->ai_family, servinfo->ai_socktype, 0);
-    if(socket == -1){
+    socket_1 = socket(servinfo->ai_family, servinfo->ai_socktype, 0);
+    if(socket_1 == -1){
         perror("cannot return socket descriptor");
         exit(-1);
     }
 
     //bind section
-    int bind =  bind(socket, servinfo->ai_addr, servinfo->ai_addrlen);
-    if(bind==-1){
+    int binder =  bind(socket_1, servinfo->ai_addr, servinfo->ai_addrlen);
+    if(binder==-1){
         perror("cannot bind");
         exit(-1);
     }
     printf("Bind(ed) to port");
 
     //listen section
-    int listen = listen(socket, 10);
-    if(listen == -1){
+    int listens = listen(socket_1, 10);
+    if(listens == -1){
         perror("server error: cannot listen");
         exit(-1);
     }
@@ -88,7 +91,7 @@ int main(int argc, char *argv[]){
     //accept section
     // while loop for setup to accept connection from client
     while(1){
-        sock_2 = accept(socket, servinfo->ai_addr, NULL);
+        sock_2 = accept(socket_1, servinfo->ai_addr, NULL);
         if (sock_2 < 0){
             perror("server error:cannot accept");
         }
@@ -96,7 +99,7 @@ int main(int argc, char *argv[]){
         if(pid > 0){
             printf("Parent");
         }else{
-            close(socket);
+            close(socket_1);
             int mesg = reader(sock_2, messge, 1024);
    
             while(1){
