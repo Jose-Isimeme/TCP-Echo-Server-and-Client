@@ -11,27 +11,21 @@
 
 
 // read data/messages from the client
-int read(void *buf, int length, int sockfd){
+int reader(void *buf, int length, int sockfd){
 
     //use recv function to
     int readData = recv(sockfd, buf, length, 0);
 
-    if(readData != -1){
-        return readData;
-    }else{
-        perror("Error in read, attempting again");
-
-        //need a while loop here?
-        while ()
-        read(buf,length,sockfd)
-
+    while(length!=-1){
+        length = recv(sockfd, buf, length, 0);
     }
+    return readData;
 }
 
 // write data back to client
 int writen(const void *buf, int length, int sockfd){
 
-    int writeData = send(sockfd, buf, length, 0)
+    int writeData = send(sockfd, buf, length, 0);
 
     // if no error, return number of bytes
     if(writeData!=-1){
@@ -48,10 +42,10 @@ int writen(const void *buf, int length, int sockfd){
 
 int main(int argc, char *argv[]){
 
-    struct addrinfo serv; // server socket address
-    struct addrinfo clt_addr; // client socket address
-    struct addrinfo *servinfo; //
-    memset(&serv, '\0', sizeof (hints));
+    struct addrinfo serv; // server socket
+    struct addrinfo clt_addr; // client socket
+    struct addrinfo *servinfo; // point to results
+    memset(&serv, '\0', sizeof (serv));
     serv.ai_family = AF_INET; //using IPv4 for this project
     serv.ai_socktype = SOCK_STREAM; //used for TCP socket stream
     serv.ai_port = htons(atoi(argv[1])); // port
@@ -59,12 +53,10 @@ int main(int argc, char *argv[]){
     //?? mem set missing
     int pid; // process id for child
     int socket, sock_2; // socket descriptor & new socket for client connection
-    char messge[1024], ; //message that will be echoed
+    char messge[1024]; //echo message
 
 
-
-
-    status = getaddrinfo(NULL, "8080", &serv, &servinfo);
+    int status = getaddrinfo(NULL, "8080", &serv, &servinfo);
     if(status!=0){
         fpr intf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
         exit(1);
@@ -96,15 +88,33 @@ int main(int argc, char *argv[]){
     //accept section
     // while loop for setup to accept connection from client
     while(1){
-        sock_2 = accept(socket, (structxx*), sizeof(xx));
+        sock_2 = accept(socket, (struct xx *), NULL, NULL);
         if (sock_2 < 0){
-            perror("server error:cannot accept")
+            perror("server error:cannot accept");
         }
-
-        printf("Client Accepted, now connected")
+        int pid = fork();
+        if(pid > 0){
+            printf("Parent");
+        }else{
+            close(socket);
+            int mesg = reader(sock_2, messge, 1024);
+   
+            while(1){
+                if (messge <= 0){ 
+                    break;
+                }
+                
+                printf("From server: %d byte message coming", msg);
+                int writeb = writen(sock_2, messge, mesg);
+                
+            }
+            close(sock_2);
+            exit(0);
+        }
     }
-
-    processid = fork() //child process setup
+    
+                
+    
 
 }
 
