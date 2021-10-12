@@ -30,17 +30,17 @@ int main(int argc, char** argv) {
 
     //adding address for the socket
     struct sockaddr_in addr;
-    addr.sin_port= htons(atoi(argv[2]))       // listening port
-    addr.sin_family = AF_INET     // IPv4 address
-    addr.sin_addr.s_addr = inet_addr(argv[1])      //helping with figuring IP address
-
+    addr.sin_port= htons(atoi(argv[2]));       // listening port
+    addr.sin_family = AF_INET;     // IPv4 address
+    addr.sin_addr.s_addr = inet_addr(argv[1]);      //helping with figuring IP address
+    int conn_stat;
     //set up connection to server
-    int conn_stat = connect(net_sock, (struct sockaddr *) &addr, sizeof(addr));
+    conn_stat = connect(net_sock, (struct sockaddr *) &addr, sizeof(addr));
     //since connect returns int value, we can use to check for error
     if (conn_stat < 0){
         perror("error: could not connect \n");
     }
-    printf("Connected successfully to port no.: %d\n port);
+    printf("Connected successfully to port no.: %d\n", addr.sin_port);
 
     //Setting message sending and receiving
     char clientmsg[2048];
@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
 
     while(1){
 
-        printf("Enter message - ")
+        printf("Enter message - ");
 
         //Sending Message
         len_msg = strlen(clientmsg); //defining parameters
