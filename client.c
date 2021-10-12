@@ -1,11 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <sys/socket.h>
-#include <sys/types.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<sys/socket.h>
+#include<sys/types.h>
+#include<netinet/in.h>
+#include<string.h>
+#include<strings.h>
+#include<errno.h>
+#include<unistd.h>
+#include<arpa/inet.h>
 
 
-#First Step will be to create a Socket
+//First Step will be to create a Socket
 int main(int argc, char** argv) {
     // creating the socket
     int net_sock;                                                                                                             //initializing socket
@@ -25,9 +30,9 @@ int main(int argc, char** argv) {
 
     //adding address for the socket
     struct sockaddr_in addr;
-    addr.sin_port= htons(??)        // listening port
+    addr.sin_port= htons(atoi(argv[2]))       // listening port
     addr.sin_family = AF_INET     // IPv4 address
-    addr.sin_addr.s_addr = inet_addr(??)      //helping with figuring IP address
+    addr.sin_addr.s_addr = inet_addr(argv[1])      //helping with figuring IP address
 
     //set up connection to server
     int conn_stat = connect(net_sock, (struct sockaddr *) &addr, sizeof(addr));
